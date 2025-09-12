@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import classNames from "classnames";
 import { Left, Right } from "neetoicons";
@@ -7,15 +7,18 @@ import { Button } from "neetoui";
 const Carousel = ({ imageUrls, title }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const handleNext = () => {
-    const nextIndex = (currentIndex + 1) % imageUrls.length;
-    setCurrentIndex(nextIndex);
+    setCurrentIndex(prev => (prev + 1) % imageUrls.length);
   };
 
   const handlePrevious = () => {
-    const prevIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
-    setCurrentIndex(prevIndex);
+    setCurrentIndex(prev => (prev - 1 + imageUrls.length) % imageUrls.length);
   };
-  console.log(currentIndex);
+
+  useEffect(() => {
+    const interval = setInterval(handleNext, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="flex flex-col items-center gap-4">
