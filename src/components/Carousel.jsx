@@ -29,9 +29,9 @@ const Carousel = ({ imageUrls, title }) => {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className=" flex items-center">
+      <div className=" flex items-center gap-8">
         <Button
-          className="shrink-0 focus-within:ring-0 hover:bg-transparent"
+          className=" shrink-0 focus-within:ring-0 hover:bg-transparent"
           icon={Left}
           style="text"
           onClick={handlePrevious}

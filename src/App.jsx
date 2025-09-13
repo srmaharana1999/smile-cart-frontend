@@ -2,11 +2,6 @@ import React from "react";
 
 import Product from "components/Product";
 
-const App = () => (
-  <>
-    <Product />
-    {/* <CounterController /> */}
-  </>
-);
+const App = () => <Product />;
 
 export default App;

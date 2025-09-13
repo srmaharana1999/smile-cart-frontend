@@ -1,36 +1,24 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-const Counter = () => {
-  const [count, setCount] = useState(1);
+const Practice = () => {
+  const autoInputRef = useRef(null);
+  const manualInputRef = useRef(null);
 
-  useEffect(() => {
-    const intervalId = setInterval(
-      () => console.log("Executing side effect"),
-      3000
-    );
+  const handleClick = () => {
+    manualInputRef.current.focus();
+  };
 
-    return () => clearInterval(intervalId);
-  }, []);
+  useEffect(() => autoInputRef.current.focus(), []);
 
   return (
     <>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(prevCount => prevCount + 1)}>+</button>
+      <input ref={autoInputRef} />
+      <div>
+        <input ref={manualInputRef} />
+      </div>
+      <button onClick={handleClick}>Focus the input</button>
     </>
   );
 };
 
-const CounterController = () => {
-  const [showCounter, setShowCounter] = useState(false);
-
-  return (
-    <>
-      <button onClick={() => setShowCounter(showCounter => !showCounter)}>
-        {showCounter ? "Unmount Counter" : "Mount Counter"}
-      </button>
-      {showCounter && <Counter />}
-    </>
-  );
-};
-
-export default CounterController;
+export default Practice;
