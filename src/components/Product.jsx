@@ -10,21 +10,14 @@ const Product = () => {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-  const {
-    name,
-    description,
-    mrp,
-    offer_price: offerPrice,
-    image_url: imageUrl,
-    image_urls: imageUrls,
-  } = product;
+  const { name, description, mrp, offerPrice, imageUrl, imageUrls } = product;
   const totalDiscounts = mrp - offerPrice;
   const discountPercentage = ((totalDiscounts / mrp) * 100).toFixed(1);
 
   const fetchProduct = async () => {
     try {
-      const response = await productApi.show();
-      setProduct(response.data);
+      const product = await productApi.show();
+      setProduct(product);
     } catch (error) {
       console.log("An error occurred", error);
     } finally {
