@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import productApi from "apis/products";
 import { PageLoader } from "components/commons";
+import AddToCart from "components/commons/AddToCart";
 import PageNotFound from "components/commons/PageNotFound";
 import { LeftArrow } from "neetoicons";
 import { Typography } from "neetoui";
@@ -75,6 +76,7 @@ const Product = () => {
           <p className="font-semibold text-green-600">
             {discountPercentage}% off
           </p>
+          <AddToCart {...{ slug }} />
         </div>
       </div>
     </div>
