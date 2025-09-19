@@ -25,7 +25,6 @@ const Product = () => {
   const fetchProduct = useCallback(async () => {
     try {
       const product = await productApi.show(slug);
-      console.log(product);
       setProduct(product);
     } catch {
       setIsError(true);
