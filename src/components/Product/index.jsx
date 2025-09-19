@@ -1,47 +1,60 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import productApi from "apis/products";
-import { Spinner, Typography } from "neetoui";
+import { PageLoader } from "components/commons";
+import PageNotFound from "components/commons/PageNotFound";
+import { LeftArrow } from "neetoicons";
+import { Typography } from "neetoui";
 import { append, isNotNil } from "ramda";
+import { useParams, useHistory } from "react-router-dom";
 
 import Carousel from "./Carousel";
 
 const Product = () => {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const { slug } = useParams();
+  const history = useHistory();
 
   const { name, description, mrp, offerPrice, imageUrl, imageUrls } = product;
   const totalDiscounts = mrp - offerPrice;
   const discountPercentage = ((totalDiscounts / mrp) * 100).toFixed(1);
 
-  const fetchProduct = async () => {
+  const fetchProduct = useCallback(async () => {
     try {
-      const product = await productApi.show();
+      const product = await productApi.show(slug);
       console.log(product);
       setProduct(product);
-    } catch (error) {
-      console.log("An error occurred", error);
+    } catch {
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [slug]);
 
   useEffect(() => {
     fetchProduct();
-  }, []);
+  }, [fetchProduct]);
 
   if (isLoading) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <Spinner />
-      </div>
-    );
+    return <PageLoader />;
   }
+
+  if (isError) return <PageNotFound />;
 
   return (
     <div className="px-6 pb-6">
-      <div>
-        <Typography className="py-2 text-4xl font-semibold">{name}</Typography>
+      <div className="m-2">
+        <div className="flex items-center">
+          <LeftArrow
+            className="hover:neeto-ui-bg-gray-400 neeto-ui-rounded-full mr-6"
+            onClick={history.goBack}
+          />
+          <Typography className="py-2 text-4xl font-semibold">
+            {name}
+          </Typography>
+        </div>
         <hr className="border-2 border-black" />
       </div>
       <div className="mt-6 flex gap-4">

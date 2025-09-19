@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 import classNames from "classnames";
 import { Left, Right } from "neetoicons";
@@ -7,9 +7,9 @@ import { Button } from "neetoui";
 const Carousel = ({ imageUrls, title }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const timerRef = useRef(null);
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setCurrentIndex(prev => (prev + 1) % imageUrls.length);
-  };
+  }, [imageUrls.length]);
 
   const resetTimer = () => {
     clearInterval(timerRef.current);
@@ -25,7 +25,7 @@ const Carousel = ({ imageUrls, title }) => {
     timerRef.current = setInterval(handleNext, 3000);
 
     return () => clearInterval(timerRef.current);
-  }, []);
+  }, [handleNext]);
 
   return (
     <div className="flex flex-col items-center gap-4">
