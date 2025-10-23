@@ -18,7 +18,15 @@ const Product = () => {
   const { slug } = useParams();
   const history = useHistory();
 
-  const { name, description, mrp, offerPrice, imageUrl, imageUrls } = product;
+  const {
+    name,
+    description,
+    mrp,
+    offerPrice,
+    imageUrl,
+    imageUrls,
+    availableQuantity,
+  } = product;
   const totalDiscounts = mrp - offerPrice;
   const discountPercentage = ((totalDiscounts / mrp) * 100).toFixed(1);
 
@@ -75,7 +83,7 @@ const Product = () => {
           <p className="font-semibold text-green-600">
             {discountPercentage}% off
           </p>
-          <AddToCart {...{ slug }} />
+          <AddToCart {...{ slug, availableQuantity }} />
         </div>
       </div>
     </div>
