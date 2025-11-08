@@ -1,0 +1,8 @@
+{
+  "buyNow": "Buy now",
+  "itemCount_one": "({{count}} item)",
+  "itemCount_other": "({{count}} items)",
+  "totalMrp": "Total MRP: <typography>${{mrp}}</typography>",
+  "totalDiscounts": "Total discounts: <typography>${{discounts}} ({{discountPercentage}}%)</typography>",
+  "offerPrice": "Total offer price: <typography>${{offerPrice}}</typography>"
+}
