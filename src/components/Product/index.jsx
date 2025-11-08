@@ -4,10 +4,12 @@ import productApi from "apis/products";
 import { PageLoader } from "components/commons";
 import AddToCart from "components/commons/AddToCart";
 import PageNotFound from "components/commons/PageNotFound";
+import useSelectedQuantity from "components/hooks/useSelectedQuantity";
 import { LeftArrow } from "neetoicons";
-import { Typography } from "neetoui";
+import { Button, Typography } from "neetoui";
 import { append, isNotNil } from "ramda";
 import { useParams, useHistory } from "react-router-dom";
+import routes from "src/route";
 
 import Carousel from "./Carousel";
 
@@ -29,6 +31,7 @@ const Product = () => {
   } = product;
   const totalDiscounts = mrp - offerPrice;
   const discountPercentage = ((totalDiscounts / mrp) * 100).toFixed(1);
+  const { selectedQuantity, setSelectedQuantity } = useSelectedQuantity(slug);
 
   const fetchProduct = useCallback(async () => {
     try {
@@ -83,7 +86,16 @@ const Product = () => {
           <p className="font-semibold text-green-600">
             {discountPercentage}% off
           </p>
-          <AddToCart {...{ slug, availableQuantity }} />
+          <div className="flex space-x-10">
+            <AddToCart {...{ availableQuantity, slug }} />
+            <Button
+              className="bg-neutral-800 hover:bg-neutral-950"
+              label="Buy now"
+              size="large"
+              to={routes.checkout}
+              onClick={() => setSelectedQuantity(selectedQuantity || 1)}
+            />
+          </div>
         </div>
       </div>
     </div>
