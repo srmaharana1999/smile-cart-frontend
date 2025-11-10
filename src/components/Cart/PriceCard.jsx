@@ -21,7 +21,7 @@ const PriceCard = ({ totalMrp, totalOfferPrice }) => {
         })}
       >
         <Trans
-          components={{ typography: <span /> }}
+          components={{ span: <span /> }}
           i18nKey="totalMrp"
           values={{ mrp: totalMrp }}
         />
@@ -30,14 +30,14 @@ const PriceCard = ({ totalMrp, totalOfferPrice }) => {
         <>
           <Typography className="flex justify-between text-green-700">
             <Trans
-              components={{ typography: <span /> }}
+              components={{ span: <span /> }}
               i18nKey="totalDiscounts"
               values={{ discounts: totalDiscounts, discountPercentage }}
             />
           </Typography>
           <Typography className="flex justify-between">
             <Trans
-              components={{ typography: <span /> }}
+              components={{ span: <span /> }}
               i18nKey="offerPrice"
               values={{ offerPrice: totalOfferPrice }}
             />

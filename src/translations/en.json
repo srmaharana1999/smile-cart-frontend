@@ -3,6 +3,11 @@
   "itemCount_one": "({{count}} item)",
   "itemCount_other": "({{count}} items)",
   "totalMrp": "Total MRP: <typography>${{mrp}}</typography>",
-  "totalDiscounts": "Total discounts: <typography>${{discounts}} ({{discountPercentage}}%)</typography>",
-  "offerPrice": "Total offer price: <typography>${{offerPrice}}</typography>"
+  "totalDiscounts": "Total discounts: <span>${{discounts}} ({{discountPercentage}}%)</span>",
+  "offerPrice": "Total offer price: <span>${{offerPrice}}</span>",
+  "title": "Smile Cart",
+  "pageTitle": "{{title}} | Smile Cart",
+  "cart": {
+    "title": "My cart"
+  }
 }
