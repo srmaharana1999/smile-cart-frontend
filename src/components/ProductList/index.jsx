@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 
-import productApi from "apis/products";
 import { Header } from "components/commons";
+import { useFetchProducts } from "hooks/reactQuery/useProductsApi";
 import useDebounce from "hooks/useDebounce";
 import { Search } from "neetoicons";
 import { Spinner, Input, NoData } from "neetoui";
@@ -10,27 +10,12 @@ import { isEmpty } from "ramda";
 import ProductListItem from "./ProductListItem";
 
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
   const debouncedSearchKey = useDebounce(searchKey);
 
-  const fetchProducts = useCallback(async () => {
-    try {
-      const { products } = await productApi.fetch({
-        searchTerm: debouncedSearchKey,
-      });
-      setProducts(products);
-    } catch (error) {
-      console.log("An error occurred:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [debouncedSearchKey]);
-
-  useEffect(() => {
-    fetchProducts();
-  }, [debouncedSearchKey, fetchProducts]);
+  const { data: { products = [] } = {}, isLoading } = useFetchProducts({
+    searchTerm: debouncedSearchKey,
+  });
 
   if (isLoading) {
     return (

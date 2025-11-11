@@ -1,52 +1,26 @@
-import { useCallback, useEffect, useState } from "react";
-
-import productApi from "apis/products";
 import { PageLoader } from "components/commons";
 import AddToCart from "components/commons/AddToCart";
 import PageNotFound from "components/commons/PageNotFound";
 import useSelectedQuantity from "components/hooks/useSelectedQuantity";
+import { useShowProduct } from "hooks/reactQuery/useProductsApi";
 import { LeftArrow } from "neetoicons";
 import { Button, Typography } from "neetoui";
-import { append, isNotNil } from "ramda";
+import { isNotNil } from "ramda";
 import { useParams, useHistory } from "react-router-dom";
 import routes from "src/route";
 
 import Carousel from "./Carousel";
 
 const Product = () => {
-  const [product, setProduct] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
   const { slug } = useParams();
   const history = useHistory();
 
-  const {
-    name,
-    description,
-    mrp,
-    offerPrice,
-    imageUrl,
-    imageUrls,
-    availableQuantity,
-  } = product;
+  const { data: product = {}, isLoading, isError } = useShowProduct(slug);
+
+  const { name, description, mrp, offerPrice, imageUrl, imageUrls } = product;
   const totalDiscounts = mrp - offerPrice;
   const discountPercentage = ((totalDiscounts / mrp) * 100).toFixed(1);
   const { selectedQuantity, setSelectedQuantity } = useSelectedQuantity(slug);
-
-  const fetchProduct = useCallback(async () => {
-    try {
-      const product = await productApi.show(slug);
-      setProduct(product);
-    } catch {
-      setIsError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [slug]);
-
-  useEffect(() => {
-    fetchProduct();
-  }, [fetchProduct]);
 
   if (isLoading) {
     return <PageLoader />;
@@ -71,10 +45,7 @@ const Product = () => {
       <div className="mt-6 flex gap-4">
         <div className="flex w-2/5 justify-center">
           {isNotNil(imageUrls) ? (
-            <Carousel
-              imageUrls={append(imageUrl, imageUrls)}
-              title="Infinix Inbook"
-            />
+            <Carousel />
           ) : (
             <img alt={name} className="h-48 w-48" src={imageUrl} />
           )}
@@ -87,7 +58,7 @@ const Product = () => {
             {discountPercentage}% off
           </p>
           <div className="flex space-x-10">
-            <AddToCart {...{ availableQuantity, slug }} />
+            <AddToCart {...{ slug }} />
             <Button
               className="bg-neutral-800 hover:bg-neutral-950"
               label="Buy now"
