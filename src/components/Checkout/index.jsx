@@ -32,10 +32,10 @@ const Checkout = () => {
   const history = useHistory();
   const timeRef = useRef(null);
   const checkboxRef = useRef(null);
+  const { cartItems, clearCart } = useCartItemsStore.pick();
   const { isLoading: isLoadingProducts } = useFetchCartProducts(
     keys(cartItems)
   );
-  const { cartItems, clearCart } = useCartItemsStore.pick();
   const { isLoading: isLoadingCountries } = useFetchCountries();
   const { mutate: createOrder } = useCreateOrder();
   const isLoading = isLoadingProducts || isLoadingCountries;
